@@ -1,178 +1,236 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cyberpunk Website</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: "Arial Black", sans-serif;
-      overflow: hidden;
-      background-color: black;
-      color: white; /* Text color */
-    }
-    .container {
-      position: relative;
-      width: 100vw;
-      height: 100vh;
-      overflow: hidden;
-    }
-    .video-background {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-    }
-    video {
-      min-width: 100%;
-      min-height: 100%;
-      object-fit: cover;
-    }
-    .music {
-      display: none; /* Hide the music player */
-    }
-    .logo {
-      position: absolute;
-      top: 30%; /* Adjust logo position */
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 999;
-      width: 120px; /* Adjust logo size */
-      height: 120px; /* Adjust logo size */
-      overflow: hidden;
-      animation: neonGlow 1.5s ease-in-out infinite alternate;
-    }
-    .logo img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 50%; /* Make the logo round */
-      filter: brightness(150%) drop-shadow(0 0 10px #00f);
-      animation: glowing-text 2s infinite alternate; /* Add glowing text animation */
-    }
-    @keyframes neonGlow {
-      0% {
-        filter: brightness(150%) drop-shadow(0 0 10px #00f);
-      }
-      100% {
-        filter: brightness(150%) drop-shadow(0 0 10px #00f);
-      }
-    }
-    @keyframes glowing-text {
-      0% {
-        color: #00f; /* Blue */
-      }
-      50% {
-        color: #0cf; /* Light blue */
-      }
-      100% {
-        color: #00f; /* Blue */
-      }
-    }
-    .glow-text {
-      position: absolute;
-      top: 45%; /* Adjust text position */
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 999;
-      font-weight: bold; /* Make the text bold */
-      color: #ffffff; /* White color */
-      margin-bottom: 10px;
-      text-shadow: 0px 0px 10px rgb(0, 0, 255), 0px 0px 20px rgb(0, 0, 255); /* Blue neon shadow effect */
-    }
-    .typing-text {
-      position: absolute;
-      top: 50%; /* Adjust text position */
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 999;
-      font-size: 14px; /* Adjust text size */
-      text-align: center;
-      opacity: 0;
-      animation: show-hide 2s infinite; /* Add show-hide animation */
-      text-shadow: 2px 2px 4px black, 0px 0px 10px blue; /* Add black and blue neon glow effect */
-    }
-    @keyframes show-hide {
-      0%, 100% {
-        opacity: 0;
-      }
-      50% {
-        opacity: 1;
-      }
-    }
-    .social-icons {
-      position: absolute;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 999;
-      text-align: center;
-    }
-    .social-icon {
-      display: inline-block;
-      margin: 5px;
-      border-radius: 50%;
-      overflow: hidden;
-      width: 40px;
-      height: 40px;
-      filter: brightness(150%);
-      box-shadow: 0 0 10px blue; /* Add blue cyberpunk crystal glowing effect */
-      cursor: pointer; /* Add cursor pointer */
-      transition: transform 0.3s ease; /* Add smooth transition */
-    }
-    .social-icon:hover {
-      transform: scale(1.1); /* Add hover effect */
-    }
-    .social-icon img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dao Khanh Duy</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: black;
+            font-family: 'Open Sans', sans-serif;
+            margin: 0;
+            color: white;
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+        }
+
+        a {
+            color: white;
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+            z-index: 2;
+        }
+
+        .container-wrapper {
+            flex: 1;
+        }
+
+        .avatar-container {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            margin: 0 auto;
+            overflow: hidden; /* Ensure the neon border animation stays within the container */
+            border-radius: 50%; /* Rounded border for smoother glow effect */
+            box-shadow: 0 0 10px blue; /* Blue glow effect */
+            animation: neonGlow 1.5s ease-in-out infinite alternate; /* Neon glow animation */
+        }
+
+        .avatar-frame {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        img.profile {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        @keyframes neonGlow {
+            0% {
+                box-shadow: 0 0 10px blue;
+            }
+            100% {
+                box-shadow: 0 0 20px blue, 0 0 30px #5B86E5, 0 0 40px #5B86E5; /* Adjust the glow effect */
+            }
+        }
+
+        a.button {
+            display: block;
+            background-color: transparent;
+            margin: 10px 0;
+            font-size: 1.9rem;
+            font: inherit;
+            padding: 13px;
+            text-decoration: none;
+            border: 2px solid white;
+        }
+
+        a.button:hover {
+            color: #5B86E5;
+            background-color: white;
+        }
+
+        h2.name {
+            margin: 10px;
+            padding-bottom: 0px;
+            animation: neonText 1.5s ease-in-out infinite alternate; /* Neon text glow animation */
+        }
+
+        @keyframes neonText {
+            0% {
+                text-shadow: 0 0 10px blue;
+            }
+            100% {
+                text-shadow: 0 0 20px blue, 0 0 30px #5B86E5, 0 0 40px #5B86E5; /* Adjust the glow effect */
+            }
+        }
+
+        footer {
+            text-align: center;
+            width: 100%;
+            padding-bottom: 20px;
+            z-index: 2;
+        }
+
+        footer>a {
+            text-decoration: none;
+        }
+
+        div.slogan {
+            padding-top: 0px;
+            padding-bottom: 10px;
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                width: 600px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .container-wrapper {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+        }
+
+        @media (max-width: 767px) {
+            h2.name {
+                padding-top: 0px;
+            }
+        }
+
+        /* Star animation */
+        .stars {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            background: white;
+            animation: stars-falling 5s linear infinite; /* Faster falling animation */
+        }
+
+        @keyframes stars-falling {
+            0% {
+                transform: translateY(-100vh);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(100vh);
+                opacity: 1;
+            }
+        }
+    </style>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-34156117-12"></script>
 </head>
+
 <body>
-  <div class="container">
-    <div class="video-background">
-      <video autoplay loop muted>
-        <source src="https://tinyurl.com/22664nyu" type="video/mp4">
-      </video>
+    <div class="stars"></div>
+    <div class="container-wrapper">
+        <div class="container">
+            <div class="avatar-container">
+                <div class="avatar-frame"></div>
+                <img class="profile" src="https://i.ibb.co/wzgVYRk/image.jpg">
+            </div>
+            <h2 class="name">GojoXRimon</h2>
+            <div class="slogan">
+                Star's can't shine without darkness
+            </div>
+            <a href="https://www.facebook.com/profile.php?id=100089495797706&mibextid=ZbWKwL" class="button">
+                <i class="fab fa-facebook-square"></i> FACEBOOK
+            </a>
+            <a href="https://www.youtube.com/@soloshadowyt9225" class="button">
+                <i class="fas fa-user-check"></i> YOUTUBE
+            </a>
+            <a href="https://www.instagram.com/tangerine_casee?igsh=MXkxazFkMm4zNDI4OA==" class="button">
+                <i class="fab fa-instagram"></i> INSTAGRAM
+            </a>
+            <a href="Opo24038@gmail.com" class="button">
+                <i class="fas fa-envelope"></i> E-MAIL
+            </a>
+        </div>
     </div>
-    <div class="music">
-      <audio autoplay loop>
-        <source src="https://tinyurl.com/22664nyu" type="audio/mpeg">
-      </audio>
-    </div>
-    <div class="logo">
-      <img src="https://tinyurl.com/2cqrybde" alt="Logo">
-    </div>
-    <div class="glow-text">
-      GojoXRimon
-    </div>
-    <div class="typing-text">
-      <span style="text-shadow: 2px 2px 4px black, 0px 0px 10px blue;">Starts</span>
-      <span style="text-shadow: 2px 2px 4px black, 0px 0px 10px blue;">can't</span>
-      <span style="text-shadow: 2px 2px 4px black, 0px 0px 10px blue;">shine</span>
-      <span style="text-shadow: 2px 2px 4px black, 0px 0px 10px blue;">without</span>
-      <span style="text-shadow: 2px 2px 4px black, 0px 0px 10px blue;">darkness</span>
-    </div>
-    <div class="social-icons">
-      <a href="https://www.facebook.com/profile.php?id=100089495797706&mibextid=ZbWKwL" class="social-icon">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook">
-      </a>
-      <a href="https://www.instagram.com/tangerine_casee?igsh=MXkxazFkMm4zNDI4OA==" class="social-icon">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram">
-      </a>
-      <a href="https://www.youtube.com/soloshadowyt9225" class="social-icon">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/4/42/YouTube_icon_%282013-2017%29.png" alt="YouTube">
-      </a>
-      <a href="https://twitter.com/G0jOJJK/" class="social-icon">
-        <img src="https://i.ibb.co/hcKqZhs/432270266.jpg" alt="Twitter">
-      </a>
-    </div>
-  </div>
+    <footer>
+        <a href="https://github.com/">Source</a>
+    </footer>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+        gtag('config', 'UA-34156117-12');
+
+        const elements = document.getElementsByTagName("a");
+        for (let i = 0; i < elements.length; i++) {
+            const element = elements[i];
+            element.addEventListener("click", function (ev) {
+                ev.preventDefault();
+                const url = element.href;
+                if (window.ga) {
+                    gtag('event', 'click', {
+                        'event_category': 'outbound',
+                        'event_label': url,
+                        'transport_type': 'beacon',
+                        'event_callback': function () {
+                            document.location.href = url;
+                        }
+                    });
+                } else {
+                    document.location.href = url;
+                }
+            });
+        }
+
+        // Function to create stars
+        function createStar() {
+            const star = document.createElement('div');
+            star.classList.add('stars');
+            star.style.left = Math.random() * window.innerWidth + 'px';
+            document.body.appendChild(star);
+            setTimeout(() => {
+                star.remove();
+            }, 5000); // Remove star after animation ends
+        }
+
+        // Create stars periodically
+        setInterval(createStar, 200); // Faster star animation
+    </script>
 </body>
+
 </html>
