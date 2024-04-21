@@ -2,12 +2,21 @@ const axios = require('axios');
 const fs = require('fs-extra');
 const { createCanvas, loadImage, registerFont } = require('canvas');
 const moment = require('moment-timezone');
+const path = require('path');
 
-
-
-//goatbot er config dalo mesbah
-
-
+module.exports = {
+  config: {
+    name: 'ut',
+    aliases: [],
+    version: '1.0',
+    role: 0,
+    countDown: 5,
+    author: 'YourName',
+    shortDescription: 'example',
+    longDescription: 'example',
+    category: 'command',
+    guide: { en: '' }
+  },
 
   byte2mb: function (bytes) {
     const units = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
@@ -15,7 +24,7 @@ const moment = require('moment-timezone');
     while (n >= 1024 && ++l) n = n / 1024;
     return `${n.toFixed(n < 10 && l > 0 ? 1 : 0)} ${units[l]}`;
   },
-  onStart: async ({ api, event, args }) => {
+  onStart: async ({ api, event, args, commands }) => {
     const timeStart = Date.now();
     const time = process.uptime();
     const hours = Math.floor(time / 3600);
@@ -27,19 +36,22 @@ const moment = require('moment-timezone');
     const timeNow = moment.tz("Asia/Dhaka").format("DD/MM/YYYY || HH:mm:ss");
     const pidusage = await require('pidusage')(process.pid);
 
-    if (!fs.existsSync(__dirname + `/nayan/UTM-Avo.ttf`)) {
-      let getfont = (await axios.get(`https://github.com/hanakuUwU/font/raw/main/UTM%20Avo.ttf`, { responseType: "arraybuffer" })).data;
-      fs.writeFileSync(__dirname + `/nayan/UTM-Avo.ttf`, Buffer.from(getfont, "utf-8"));
-    }
+    const fontsDir = path.join(__dirname, 'nayan');
+    fs.ensureDirSync(fontsDir); // Ensure the directory exists
 
-    if (!fs.existsSync(__dirname + `/nayan/phenomicon.ttf`)) {
-      let getfont2 = (await axios.get(`https://github.com/hanakuUwU/font/raw/main/phenomicon.ttf`, { responseType: "arraybuffer" })).data;
-      fs.writeFileSync(__dirname + `/nayan/phenomicon.ttf`, Buffer.from(getfont2, "utf-8"));
-    }
+    const fontFiles = [
+      { name: 'UTM-Avo.ttf', url: 'https://github.com/hanakuUwU/font/raw/main/UTM%20Avo.ttf' },
+      { name: 'phenomicon.ttf', url: 'https://github.com/hanakuUwU/font/raw/main/phenomicon.ttf' },
+      { name: 'CaviarDreams.ttf', url: 'https://github.com/hanakuUwU/font/raw/main/CaviarDreams.ttf' }
+    ];
 
-    if (!fs.existsSync(__dirname + `/nayan/CaviarDreams.ttf`)) {
-      let getfont3 = (await axios.get(`https://github.com/hanakuUwU/font/raw/main/CaviarDreams.ttf`, { responseType: "arraybuffer" })).data;
-      fs.writeFileSync(__dirname + `/nayan/CaviarDreams.ttf`, Buffer.from(getfont3, "utf-8"));
+    // Download font files if they don't exist
+    for (const font of fontFiles) {
+      const fontPath = path.join(fontsDir, font.name);
+      if (!fs.existsSync(fontPath)) {
+        const { data } = await axios.get(font.url, { responseType: "arraybuffer" });
+        fs.writeFileSync(fontPath, Buffer.from(data, "utf-8"));
+      }
     }
 
     let k = args[0];
@@ -69,8 +81,8 @@ const moment = require('moment-timezone');
     const lengthchar = (await axios.get('https://raw.githubusercontent.com/mraikero-01/saikidesu_data/main/imgs_data2.json')).data;
     console.log(lengthchar.length);
 
-    const pathImg = __dirname + `/nayan/avatar_1111231.png`;
-    const pathAva = __dirname + `/nayan/avatar_3dsc11.png`;
+    const pathImg = path.join(__dirname, 'nayan', `avatar_1111231.png`);
+    const pathAva = path.join(__dirname, 'nayan', `avatar_3dsc11.png`);
     const background = (await axios.get(encodeURI(loz[Math.floor(Math.random() * loz.length)]), { responseType: "arraybuffer" })).data;
     fs.writeFileSync(pathImg, Buffer.from(background, "utf-8"));
     const ava = (await axios.get(encodeURI(`${lengthchar[k - 1].imgAnime}`), { responseType: "arraybuffer" })).data;
@@ -85,7 +97,7 @@ const moment = require('moment-timezone');
     ctx.drawImage(a, 0, 0, canvas.width, canvas.height);
     ctx.drawImage(l1, 800, -160, 1100, 1100);
 
-    registerFont(__dirname + `/nayan/phenomicon.ttf`, {
+    registerFont(path.join(fontsDir, 'phenomicon.ttf'), {
       family: "phenomicon"
     });
     ctx.textAlign = "start";
@@ -96,7 +108,7 @@ const moment = require('moment-timezone');
     ctx.fillText("UPTIME ROBOT", 95, 340);
     ctx.beginPath();
 
-    registerFont(__dirname + `/nayan/UTM-Avo.ttf`, {
+    registerFont(path.join(fontsDir, 'UTM-Avo.ttf'), {
       family: "UTM"
     });
     ctx.textAlign = "start";
@@ -106,7 +118,7 @@ const moment = require('moment-timezone');
     ctx.restore();
     ctx.save();
 
-    registerFont(__dirname + `/nayan/CaviarDreams.ttf`, {
+    registerFont(path.join(fontsDir, 'CaviarDreams.ttf'), {
       family: "time"
     });
     ctx.textAlign = "start";
@@ -121,7 +133,7 @@ const moment = require('moment-timezone');
     fs.writeFileSync(pathImg, imageBuffer);
 
     api.sendMessage({
-      body: `┃======{ 𝗨𝗣𝗧𝗜𝗠𝗘 𝗥𝗢𝗕𝗢𝗧 }======┃\n\n→ Bot worked  ${hours} hours ${minutes} minutes ${seconds} seconds \n•━━━━━━━━━━━━━━━━━━━━━━━━•\n➠ 𝗠𝗢𝗛𝗔𝗠𝗠𝗔𝗗 𝗡𝗔𝗬𝗔𝗡\n➠ Bo𝐭 Name: ${global.config.BOTNAME}\n➠ Bot Prefix: ${global.config.PREFIX}\n➠ Commands count: ${commands.size}\n➠ Total Users: ${global.data.allUserID.length}\n➠ Total thread: ${global.data.allThreadID.length}\n➠ CPU in use:: ${pidusage.cpu.toFixed(1)}%\n➠ RAM: ${this.byte2mb(pidusage.memory)}\n➠ Ping: ${Date.now() - timeStart}ms\n➠ Character ID: ${k}\n•━━━━━━━━━━━━━━━━━━━━━━━━•\n[ ${timeNow} ]`,
+      body: `┃======{ 𝗨𝗣𝗧𝗜𝗠𝗘 𝗥𝗢𝗕𝗢𝗧 }======┃\n\n→ Bot worked  ${hours} hours ${minutes} minutes ${seconds} seconds \n•━━━━━━━━━━━━━━━━━━━━━━━━•\n➠ 𝗠𝗢𝗛𝗔𝗠𝗠𝗔𝗗 𝗡𝗜𝗦𝗛𝗜𝗠𝗜𝗬𝗔\n➠ Bot Name: Nishimiya\n➠ Bot Prefix: ${global.config.PREFIX}\n➠ Commands count: ${commands.size}\n➠ Total Users: ${global.data.allUserID.length}\n➠ Total thread: ${global.data.allThreadID.length}\n➠ CPU in use:: ${pidusage.cpu.toFixed(1)}%\n➠ RAM: ${this.byte2mb(pidusage.memory)}\n➠ Ping: ${Date.now() - timeStart}ms\n➠ Character ID: ${k}\n•━━━━━━━━━━━━━━━━━━━━━━━━•\n[ ${timeNow} ]`,
       attachment: fs.createReadStream(pathImg)
     }, event.threadID, () => {
       fs.unlinkSync(pathImg);
