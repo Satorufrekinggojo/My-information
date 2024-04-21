@@ -24,7 +24,7 @@ module.exports = {
     while (n >= 1024 && ++l) n = n / 1024;
     return `${n.toFixed(n < 10 && l > 0 ? 1 : 0)} ${units[l]}`;
   },
-  onStart: async ({ api, event, args, commands }) => {
+  onStart: async ({ api, event, args, commands, prefix }) => {
     const timeStart = Date.now();
     const time = process.uptime();
     const hours = Math.floor(time / 3600);
@@ -69,7 +69,7 @@ module.exports = {
         if (i >= count) break;
         msg += `[ ${i + 1} ] - ${data[i].ID} | ${data[i].name}\n`;
       }
-      msg += `Trang ( ${page}/${numPage} )\nDùng ${global.config.PREFIX}${this.config.name} list < số trang >`;
+      msg += `Trang ( ${page}/${numPage} )\nDùng ${prefix}${this.config.name} list < số trang >`;
       return api.sendMessage(msg, event.threadID, event.messageID);
     }
 
@@ -133,7 +133,7 @@ module.exports = {
     fs.writeFileSync(pathImg, imageBuffer);
 
     api.sendMessage({
-      body: `┃======{ 𝗨𝗣𝗧𝗜𝗠𝗘 𝗥𝗢𝗕𝗢𝗧 }======┃\n\n→ Bot worked  ${hours} hours ${minutes} minutes ${seconds} seconds \n•━━━━━━━━━━━━━━━━━━━━━━━━•\n➠ 𝗠𝗢𝗛𝗔𝗠𝗠𝗔𝗗 𝗡𝗜𝗦𝗛𝗜𝗠𝗜𝗬𝗔\n➠ Bot Name: Nishimiya\n➠ Bot Prefix: ${global.config.PREFIX}\n➠ Commands count: ${commands.size}\n➠ Total Users: ${global.data.allUserID.length}\n➠ Total thread: ${global.data.allThreadID.length}\n➠ CPU in use:: ${pidusage.cpu.toFixed(1)}%\n➠ RAM: ${this.byte2mb(pidusage.memory)}\n➠ Ping: ${Date.now() - timeStart}ms\n➠ Character ID: ${k}\n•━━━━━━━━━━━━━━━━━━━━━━━━•\n[ ${timeNow} ]`,
+      body: `┃======{ 𝗨𝗣𝗧𝗜𝗠𝗘 𝗥𝗢𝗕𝗢𝗧 }======┃\n\n→ Bot worked  ${hours} hours ${minutes} minutes ${seconds} seconds \n•━━━━━━━━━━━━━━━━━━━━━━━━•\n➠ 𝗠𝗢𝗛𝗔𝗠𝗠𝗔𝗗 𝗡𝗜𝗦𝗛𝗜𝗠𝗜𝗬𝗔\n➠ Bot Name: Nishimiya\n➠ Bot Prefix: ${prefix}\n➠ Commands count: ${commands.size}\n➠ Total Users: ${global.data.allUserID.length}\n➠ Total thread: ${global.data.allThreadID.length}\n➠ CPU in use:: ${pidusage.cpu.toFixed(1)}%\n➠ RAM: ${this.byte2mb(pidusage.memory)}\n➠ Ping: ${Date.now() - timeStart}ms\n➠ Character ID: ${k}\n•━━━━━━━━━━━━━━━━━━━━━━━━•\n[ ${timeNow} ]`,
       attachment: fs.createReadStream(pathImg)
     }, event.threadID, () => {
       fs.unlinkSync(pathImg);
